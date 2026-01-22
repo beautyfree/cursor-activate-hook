@@ -13,83 +13,40 @@ Automatically activates the Cursor window and brings it to the foreground after 
 
 ## 🚀 Quick Installation
 
-### macOS / Linux
+Install using the `cursor-hook` CLI tool:
 
-**Via curl:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/beautyfree/cursor-window-activate-hook/main/install.sh | bash
+npx cursor-hook install beautyfree/cursor-window-activate-hook
 ```
 
-**Via wget:**
+This will:
+- Download the repository
+- Install system dependencies (if needed)
+- Prompt you to choose installation location (global or project)
+- Configure hooks automatically
+
+**Install globally:**
 ```bash
-wget -qO- https://raw.githubusercontent.com/beautyfree/cursor-window-activate-hook/main/install.sh | bash
+npm install -g cursor-hook
+cursor-hook install beautyfree/cursor-window-activate-hook
 ```
-
-**From cloned repository:**
-```bash
-git clone https://github.com/beautyfree/cursor-window-activate-hook.git
-cd cursor-window-activate-hook
-./install.sh
-```
-
-### Windows
-
-**Option 1: Using Git Bash (recommended)**
-1. Install [Git for Windows](https://git-scm.com/download/win) if not already installed
-2. Open Git Bash
-3. Run:
-```bash
-curl -fsSL https://raw.githubusercontent.com/beautyfree/cursor-window-activate-hook/main/install.sh | bash
-```
-
-**Option 2: Using WSL (Windows Subsystem for Linux)**
-1. Open WSL terminal
-2. Run:
-```bash
-curl -fsSL https://raw.githubusercontent.com/beautyfree/cursor-window-activate-hook/main/install.sh | bash
-```
-
-**Option 3: Manual installation**
-1. Download files manually:
-   - Download `activate-window.sh` from: https://raw.githubusercontent.com/beautyfree/cursor-window-activate-hook/main/activate-window.sh
-2. Create directory: `%USERPROFILE%\.cursor\hooks\`
-3. Save `activate-window.sh` to `%USERPROFILE%\.cursor\hooks\activate-window.sh`
-4. Create or edit `%USERPROFILE%\.cursor\hooks.json` (replace `%USERPROFILE%` with your actual user profile path, e.g., `C:\Users\YourUsername`):
-```json
-{
-  "version": 1,
-  "hooks": {
-    "beforeSubmitPrompt": [
-      {
-        "command": "C:\\Users\\YourUsername\\.cursor\\hooks\\activate-window.sh"
-      }
-    ],
-    "afterAgentResponse": [
-      {
-        "command": "C:\\Users\\YourUsername\\.cursor\\hooks\\activate-window.sh"
-      }
-    ]
-  }
-}
-```
-**Note:** Replace `C:\Users\YourUsername` with your actual user profile path. In Git Bash/WSL, you can use `$HOME/.cursor/hooks/activate-window.sh` instead.
-
-The installation script automatically:
-- Detects your OS
-- Installs required dependencies (for Linux)
-- Downloads and installs all necessary files
-- Configures hooks.json (merges with existing hooks if present)
 
 ### Linux dependencies installation (automatic)
 
-The installation script automatically detects and installs required dependencies:
+The CLI automatically attempts to install `xdotool` using the appropriate package manager for your Linux distribution:
 
-- **Debian/Ubuntu**: `sudo apt-get install xdotool`
-- **CentOS/RHEL**: `sudo yum install xdotool`
-- **Fedora**: `sudo dnf install xdotool`
-- **Arch Linux**: `sudo pacman -S xdotool`
+- **Debian/Ubuntu**: `apt-get`
+- **CentOS/RHEL**: `yum`
+- **Fedora**: `dnf`
+- **Arch Linux**: `pacman`
 
-If automatic installation fails, install manually using one of the commands above.
+If automatic installation fails, install manually:
+```bash
+sudo apt-get install xdotool  # Debian/Ubuntu
+sudo yum install xdotool      # CentOS/RHEL
+sudo dnf install xdotool      # Fedora
+sudo pacman -S xdotool        # Arch Linux
+```
 
 ## 📋 Requirements
 
@@ -105,11 +62,8 @@ If automatic installation fails, install manually using one of the commands abov
 
 ### Windows
 - Cursor installed
+- Node.js (for cursor-hook CLI)
 - PowerShell (built-in on Windows 10+)
-- **For automatic installation:** Git Bash or WSL (Windows Subsystem for Linux)
-  - Download Git for Windows: https://git-scm.com/download/win
-  - Or install WSL: https://learn.microsoft.com/en-us/windows/wsl/install
-- **For manual installation:** No additional tools required
 
 ## 🔧 How It Works
 
@@ -126,21 +80,32 @@ If automatic installation fails, install manually using one of the commands abov
 
 After installation, files will be located at:
 
+**Global installation:**
 ```
 ~/.cursor/
 ├── hooks.json                    # Hooks configuration
 └── hooks/
     ├── activate-window.sh         # Main script
-    └── activate-window-ids/       # Temporary files with window IDs
+    └── activate-window-ids/      # Temporary files with window IDs (created automatically)
+```
+
+**Project installation:**
+```
+.cursor/
+├── hooks.json                    # Hooks configuration
+└── hooks/
+    ├── activate-window.sh         # Main script
+    └── activate-window-ids/      # Temporary files with window IDs (created automatically)
 ```
 
 ## 🛠️ Manual Setup
 
-If you want to set up manually:
+If you prefer to set up manually:
 
-1. Copy `activate-window.sh` to `~/.cursor/hooks/`
-2. Make it executable: `chmod +x ~/.cursor/hooks/activate-window.sh`
-3. Create or update `~/.cursor/hooks.json` (see `hooks.json.example`)
+1. Download `activate-window.sh` from the repository
+2. Copy it to `~/.cursor/hooks/` (or `.cursor/hooks/` for project installation)
+3. Make it executable: `chmod +x ~/.cursor/hooks/activate-window.sh`
+4. Create or update `~/.cursor/hooks.json` (or `.cursor/hooks.json` for project) with hooks configuration (see `hooks.json.example`)
 
 ## 🧪 Testing
 
@@ -172,17 +137,25 @@ echo '{
 ## 🔄 Updating
 
 ```bash
-# Update to the latest version
-curl -fsSL https://raw.githubusercontent.com/beautyfree/cursor-window-activate-hook/main/install.sh | bash
+npx cursor-hook install beautyfree/cursor-window-activate-hook
 ```
 
 ## 🗑️ Uninstallation
 
+**For global installation:**
 ```bash
 # Remove hooks and scripts
 rm -rf ~/.cursor/hooks/activate-window.sh
 rm -rf ~/.cursor/hooks/activate-window-ids
 # Edit ~/.cursor/hooks.json and remove the corresponding entries
+```
+
+**For project installation:**
+```bash
+# Remove hooks and scripts
+rm -rf .cursor/hooks/activate-window.sh
+rm -rf .cursor/hooks/activate-window-ids
+# Edit .cursor/hooks.json and remove the corresponding entries
 ```
 
 ## 📝 License
@@ -196,4 +169,5 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 ## 📚 Additional Information
 
 - [Cursor Hooks Documentation](https://cursor.com/docs/agent/hooks)
+- [cursor-hook CLI Tool](https://github.com/beautyfree/cursor-hook-cli) - Install hooks from Git repositories
 - [Issues and Discussions](https://github.com/beautyfree/cursor-window-activate-hook/issues)

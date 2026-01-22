@@ -1,0 +1,20 @@
+{
+  "installCommand": {
+    "linux": "sudo apt-get install -y xdotool || sudo yum install -y xdotool || sudo dnf install -y xdotool || sudo pacman -S --noconfirm xdotool || true"
+  },
+  "files": [
+    "activate-window.sh"
+  ],
+  "hooks": {
+    "beforeSubmitPrompt": [
+      {
+        "command": "$HOME/.cursor/hooks/activate-window.sh"
+      }
+    ],
+    "afterAgentResponse": [
+      {
+        "command": "$HOME/.cursor/hooks/activate-window.sh"
+      }
+    ]
+  }
+}
