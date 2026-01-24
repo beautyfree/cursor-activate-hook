@@ -19,34 +19,9 @@ Install using the `cursor-hook` CLI tool:
 npx cursor-hook install beautyfree/cursor-window-activate-hook
 ```
 
-This will:
-- Download the repository
-- Install system dependencies (if needed)
-- Prompt you to choose installation location (global or project)
-- Configure hooks automatically
+### Dependencies
 
-**Install globally:**
-```bash
-npm install -g cursor-hook
-cursor-hook install beautyfree/cursor-window-activate-hook
-```
-
-### Linux dependencies installation (automatic)
-
-The CLI automatically attempts to install `xdotool` using the appropriate package manager for your Linux distribution:
-
-- **Debian/Ubuntu**: `apt-get`
-- **CentOS/RHEL**: `yum`
-- **Fedora**: `dnf`
-- **Arch Linux**: `pacman`
-
-If automatic installation fails, install manually:
-```bash
-sudo apt-get install xdotool  # Debian/Ubuntu
-sudo yum install xdotool      # CentOS/RHEL
-sudo dnf install xdotool      # Fedora
-sudo pacman -S xdotool        # Arch Linux
-```
+The hook requires Node.js dependencies which are automatically installed during setup. The CLI installs them silently without verbose output.
 
 ## 📋 Requirements
 
@@ -56,20 +31,19 @@ sudo pacman -S xdotool        # Arch Linux
 
 ### Linux
 - Cursor installed
-- One of the following tools (installed automatically if needed):
-  - `xdotool` (recommended)
-  - `wmctrl`
+- Node.js (for running the hook script)
+- `xdotool` or `wmctrl` (for window management, install manually if needed)
 
 ### Windows
 - Cursor installed
-- Node.js (for cursor-hook CLI)
+- Node.js (for cursor-hook CLI and hook script)
 - PowerShell (built-in on Windows 10+)
 
 ## 🔧 How It Works
 
 1. **Before submitting prompt** (`beforeSubmitPrompt`):
-   - Script saves the identifier of the current active Cursor window
-   - Saves it to `~/.cursor/hooks/activate-window-ids/`
+   - Script saves the identifier of the current active window
+   - Saves it to `~/.cursor/hooks/activate-window/ids/`
 
 2. **After agent response** (`afterAgentResponse`):
    - Script loads the saved window identifier
@@ -85,8 +59,11 @@ After installation, files will be located at:
 ~/.cursor/
 ├── hooks.json                    # Hooks configuration
 └── hooks/
-    ├── activate-window.sh         # Main script
-    └── activate-window-ids/      # Temporary files with window IDs (created automatically)
+    └── activate-window/           # Hook directory
+        ├── activate-window.js     # Main script
+        ├── package.json           # Node.js dependencies
+        ├── node_modules/          # Installed dependencies (created automatically)
+        └── ids/                  # Temporary files with window IDs (created automatically)
 ```
 
 **Project installation:**
@@ -94,18 +71,38 @@ After installation, files will be located at:
 .cursor/
 ├── hooks.json                    # Hooks configuration
 └── hooks/
-    ├── activate-window.sh         # Main script
-    └── activate-window-ids/      # Temporary files with window IDs (created automatically)
+    └── activate-window/           # Hook directory
+        ├── activate-window.js     # Main script
+        ├── package.json           # Node.js dependencies
+        ├── node_modules/          # Installed dependencies (created automatically)
+        └── ids/                  # Temporary files with window IDs (created automatically)
 ```
 
 ## 🛠️ Manual Setup
 
 If you prefer to set up manually:
 
-1. Download `activate-window.sh` from the repository
+1. Download the `activate-window` directory from the repository
 2. Copy it to `~/.cursor/hooks/` (or `.cursor/hooks/` for project installation)
-3. Make it executable: `chmod +x ~/.cursor/hooks/activate-window.sh`
-4. Create or update `~/.cursor/hooks.json` (or `.cursor/hooks.json` for project) with hooks configuration (see `hooks.json.example`)
+3. Install Node.js dependencies: `cd ~/.cursor/hooks/activate-window && npm install --production`
+4. Create or update `~/.cursor/hooks.json` (or `.cursor/hooks.json` for project) with hooks configuration:
+   ```json
+   {
+     "version": 1,
+     "hooks": {
+       "beforeSubmitPrompt": [
+         {
+           "command": "node $HOME/.cursor/hooks/activate-window/activate-window.js"
+         }
+       ],
+       "afterAgentResponse": [
+         {
+           "command": "node $HOME/.cursor/hooks/activate-window/activate-window.js"
+         }
+       ]
+     }
+   }
+   ```
 
 ## 🧪 Testing
 
@@ -119,10 +116,10 @@ echo '{
   "cursor_version": "2.4.20",
   "workspace_roots": ["/path/to/workspace"],
   "user_email": "test@example.com"
-}' | ~/.cursor/hooks/activate-window.sh
+}' | node ~/.cursor/hooks/activate-window/activate-window.js
 
 # Check saved ID
-cat ~/.cursor/hooks/activate-window-ids/test-123.txt
+cat ~/.cursor/hooks/activate-window/ids/test-123.txt
 
 # Test window activation
 echo '{
@@ -131,7 +128,7 @@ echo '{
   "cursor_version": "2.4.20",
   "workspace_roots": ["/path/to/workspace"],
   "user_email": "test@example.com"
-}' | ~/.cursor/hooks/activate-window.sh
+}' | node ~/.cursor/hooks/activate-window/activate-window.js
 ```
 
 ## 🔄 Updating
@@ -145,16 +142,14 @@ npx cursor-hook install beautyfree/cursor-window-activate-hook
 **For global installation:**
 ```bash
 # Remove hooks and scripts
-rm -rf ~/.cursor/hooks/activate-window.sh
-rm -rf ~/.cursor/hooks/activate-window-ids
+rm -rf ~/.cursor/hooks/activate-window
 # Edit ~/.cursor/hooks.json and remove the corresponding entries
 ```
 
 **For project installation:**
 ```bash
 # Remove hooks and scripts
-rm -rf .cursor/hooks/activate-window.sh
-rm -rf .cursor/hooks/activate-window-ids
+rm -rf .cursor/hooks/activate-window
 # Edit .cursor/hooks.json and remove the corresponding entries
 ```
 
