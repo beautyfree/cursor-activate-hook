@@ -1,4 +1,4 @@
-# Cursor Window Activate Hook
+# Cursor Activate Hook
 
 Automatically activates the Cursor window and brings it to the foreground after each AI agent response. Saves the active window before submitting a prompt and restores it after receiving a response.
 
@@ -19,7 +19,7 @@ Automatically activates the Cursor window and brings it to the foreground after 
 Install using the [cursor-hook](https://github.com/beautyfree/cursor-hook) CLI tool:
 
 ```bash
-npx cursor-hook install beautyfree/cursor-window-activate-hook
+npx cursor-hook install beautyfree/cursor-activate-hook
 ```
 
 ### Dependencies
@@ -156,7 +156,7 @@ echo '{
 ## 🔄 Updating
 
 ```bash
-npx cursor-hook install beautyfree/cursor-window-activate-hook
+npx cursor-hook install beautyfree/cursor-activate-hook
 ```
 
 ## 🗑️ Uninstallation
@@ -187,4 +187,4 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 
 - [Cursor Hooks Documentation](https://cursor.com/docs/agent/hooks)
 - [cursor-hook](https://github.com/beautyfree/cursor-hook) - Develop and install hooks from Git repositories
-- [Issues and Discussions](https://github.com/beautyfree/cursor-window-activate-hook/issues)
+- [Issues and Discussions](https://github.com/beautyfree/cursor-activate-hook/issues)

@@ -1,5 +1,5 @@
 {
-  "name": "cursor-window-activate-hook",
+  "name": "cursor-activate-hook",
   "version": "1.0.0",
   "type": "module",
   "description": "Cursor hook to automatically activate window after agent response",
