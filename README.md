@@ -16,7 +16,7 @@ Automatically activates the Cursor window and brings it to the foreground after 
 
 ## 🚀 Quick Installation
 
-Install using the `cursor-hook` CLI tool:
+Install using the [cursor-hook](https://github.com/beautyfree/cursor-hook) CLI tool:
 
 ```bash
 npx cursor-hook install beautyfree/cursor-window-activate-hook
@@ -167,5 +167,5 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 ## 📚 Additional Information
 
 - [Cursor Hooks Documentation](https://cursor.com/docs/agent/hooks)
-- [cursor-hook CLI Tool](https://github.com/beautyfree/cursor-hook-cli) - Install hooks from Git repositories
+- [cursor-hook](https://github.com/beautyfree/cursor-hook) - Develop and install hooks from Git repositories
 - [Issues and Discussions](https://github.com/beautyfree/cursor-window-activate-hook/issues)
