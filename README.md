@@ -2,6 +2,9 @@
 
 Automatically activates the Cursor window and brings it to the foreground after each AI agent response. Saves the active window before submitting a prompt and restores it after receiving a response.
 
+<p align="center">
+  <img src=".github/demo.gif" alt="Demo" />
+</p>
 
 ## 🎯 Features
 
