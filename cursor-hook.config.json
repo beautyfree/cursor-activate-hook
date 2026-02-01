@@ -1,8 +1,10 @@
 {
   "installCommand": "npm i --no-save --silent && npm run build || true",
-  "files": [
-    "activate-window"
-  ],
+  "files": {
+    "hooks": [
+      "hooks/activate-window"
+    ]
+  },
   "hooks": {
     "beforeSubmitPrompt": [
       {
